@@ -1,4 +1,2 @@
-# ci-restserver
-Check the recent version at https://github.com/chriskacerguis/codeigniter-restserver
-
-My alternate version https://github.com/ardisaurus/old-rest-ci
+# sistem_pakar_kubis
+Sistem pakar yang dibuat untuk mendeteksi penyakit pada tanaman kubis
