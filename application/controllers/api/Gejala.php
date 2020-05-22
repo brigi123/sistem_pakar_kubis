@@ -15,7 +15,7 @@ class Gejala extends REST_Controller
 
     public function index_get()
     {
-        $id = $this->get('id');
+        $id = $this->get('id_gejala');
         $id_penyakit = $this->get('id_penyakit');
 
         if($id || $id_penyakit){

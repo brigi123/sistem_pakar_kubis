@@ -13,6 +13,29 @@ class User extends REST_Controller
         $this->load->model('User_model', 'user');
     }
 
+    public function index_get()
+    {
+        $id = $this->get('id_user');
+
+        if($id == null){
+            $user = $this->user->getUser();
+        } else {
+            $user = $this->user->getUser($id);
+        }
+        
+        if($user){
+            $this->response([
+                'status' => true,
+                'data' => $user
+            ], REST_Controller::HTTP_OK);
+        } else{
+            $this->response([
+                'status' => false,
+                'message' => 'id tidak ditemukan'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
     public function index_post()
     {
         $data = [
@@ -36,7 +59,7 @@ class User extends REST_Controller
 
     public function index_put()
     {
-        $id = $this->put('id');
+        $id = $this->put('id_user');
         $data = [
             'nama' => $this->put('nama'),
             'alamat' => $this->put('alamat'),

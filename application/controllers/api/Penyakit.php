@@ -15,7 +15,7 @@ class Penyakit extends REST_Controller
 
     public function index_get()
     {
-        $id = $this->get('id');
+        $id = $this->get('id_penyakit');
 
         if($id == null){
             $penyakit = $this->penyakit->getPenyakit();
