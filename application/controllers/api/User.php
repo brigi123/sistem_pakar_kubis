@@ -16,11 +16,12 @@ class User extends REST_Controller
     public function index_get()
     {
         $id = $this->get('id_user');
+        $telepon = $this->get('telepon');
 
-        if($id == null){
+        if($id || $telepon){
+            $user = $this->user->getUser($id, $telepon);
+        } else{
             $user = $this->user->getUser();
-        } else {
-            $user = $this->user->getUser($id);
         }
         
         if($user){
@@ -31,7 +32,7 @@ class User extends REST_Controller
         } else{
             $this->response([
                 'status' => false,
-                'message' => 'id tidak ditemukan'
+                'message' => 'data tidak ditemukan'
             ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
