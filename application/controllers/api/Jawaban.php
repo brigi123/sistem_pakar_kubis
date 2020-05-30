@@ -5,29 +5,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-class User extends REST_Controller
+class Jawaban extends REST_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('User_model', 'user');
+        $this->load->model('Jawaban_model', 'jawaban');
     }
 
     public function index_get()
     {
-        $id = $this->get('id_user');
-        $telepon = $this->get('telepon');
+        $user = $this->get('id_user');
+        $gejala = $this->get('id_gejala');
 
-        if($id || $telepon){
-            $user = $this->user->getUser($id, $telepon);
+        if($user || $gejala){
+            $jawaban = $this->jawaban->getJawaban($user, $gejala);
         } else{
-            $user = $this->user->getUser();
+            $jawaban = $this->jawaban->getJawaban();
         }
         
-        if($user){
+        if($jawaban){
             $this->response([
                 'status' => true,
-                'data' => $user
+                'data' => $jawaban
             ], REST_Controller::HTTP_OK);
         } else{
             $this->response([
@@ -40,42 +40,41 @@ class User extends REST_Controller
     public function index_post()
     {
         $data = [
-            'nama' => $this->post('nama'),
-            'alamat' => $this->post('alamat'),
-            'telepon' => $this->post('telepon')
+            'id_user' => $this->post('id_user'),
+            'id_gejala' => $this->post('id_gejala'),
+            'jawaban' => $this->post('jawaban')
         ];
         
-        if($this->user->tambahUser($data) > 0){
+        if($this->jawaban->tambahJawaban($data) > 0){
             $this->response([
                 'status' => true,
-                'message' => 'pengguna berhasil ditambahkan'
+                'message' => 'jawaban berhasil ditambahkan'
             ], REST_Controller::HTTP_CREATED);
         } else{
             $this->response([
                 'status' => false,
-                'message' => 'tambah pengguna gagal!'
+                'message' => 'tambah jawaban gagal!'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
 
     public function index_put()
     {
-        $id = $this->put('id_user');
+        $id_user = $this->put('id_user');
+        $id_gejala = $this->put('id_gejala');
         $data = [
-            'nama' => $this->put('nama'),
-            'alamat' => $this->put('alamat'),
-            'telepon' => $this->put('telepon')
+            'jawaban' => $this->put('jawaban')
         ];
 
-        if($this->user->updateUser($data, $id) > 0){
+        if($this->jawaban->updateJawaban($data, $id_user, $id_gejala) > 0){
             $this->response([
                 'status' => true,
-                'message' => 'data pengguna berhasil diperbarui.'
+                'message' => 'jawaban berhasil diperbarui.'
             ], REST_Controller::HTTP_OK);
         } else{
             $this->response([
                 'status' => false,
-                'message' => 'pembaruan data pengguna gagal!'
+                'message' => 'pembaruan jawaban gagal!'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
