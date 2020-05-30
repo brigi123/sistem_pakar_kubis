@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2020 at 04:11 PM
+-- Generation Time: May 30, 2020 at 07:12 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.4
 
@@ -39,35 +39,68 @@ CREATE TABLE `gejala` (
 --
 
 INSERT INTO `gejala` (`id_gejala`, `id_penyakit`, `gejala`, `point`) VALUES
-(1, 1, 'Ketika tanaman dicabut, akar membengkak seperti gada', 1),
-(2, 1, 'Daun pada tanaman akan layu seperti kekurangan air', 0.6),
-(3, 1, 'Gejala pada tanaman akan terjadi pada siang hari, dan pada malam haari akan segar kembali hingga pagi', 0.6),
-(4, 1, 'Tanaman menjadi kerdil', 0.7),
-(5, 1, 'Akar membengkak seperti umbi', 1),
-(6, 2, 'Daun berair', 0.6),
-(7, 2, 'Muncul bercak kecoklatan pada daun', 0.7),
-(8, 2, 'Daun melunak dan berlendir', 0.9),
-(9, 2, 'Mengeluarkan bau yang khas pada daun', 0.9),
-(10, 2, 'Bercak membesar dan bentuknya tidak beraturan', 0.8),
-(11, 3, 'Daun atau batang kubis menguning hingga menghitam', 0.6),
-(12, 3, 'Tanaman layu', 0.5),
-(13, 3, 'Daun yang terinfeksi akan membentuk wilayah V', 0.7),
-(14, 3, 'Dasar daun menjadi kering', 0.9),
-(15, 3, 'Tanaman menunjukkan gejala kerdil', 0.9),
-(16, 4, 'Pada daun terdapat bercak-bercak kecil', 0.3),
-(17, 4, 'Bercak pada daun berwarna kelabu gelap mendekati hitam', 0.6),
-(18, 4, 'Bercak melingkar atau bulat', 0.7),
-(19, 4, 'Bercak mudah berkembang dan meluas', 0.7),
-(20, 4, 'Noda kuning pada daun paling tua atau batang', 0.8),
-(21, 5, 'Ulat yang menyerang 1 atau 2', 0.8),
-(22, 5, 'Daunnya habis dimakan', 0.8),
-(23, 5, 'Adanya sisa-sisa kotoran pada tanaman yang dimakan ulat ', 0.8),
-(24, 5, 'Tanaman akan berlubang dan hanya tinggal tulang-tulang daunnya', 1),
-(25, 6, 'Memakan pinggir daun', 0.8),
-(26, 6, 'Daun berlubang-lubang', 0.7),
-(27, 6, 'Daun tampak bercak-bercak putih', 0.7),
-(28, 6, 'Jika ulat terancam, akan menjatuhkan diri dan mengeluarkan benang', 0.7),
-(29, 6, 'Daun menjadi tinggal tulang daun', 0.9);
+(1, 1, 'ketika tanaman dicabut, akar membengkak seperti gada', 1),
+(2, 1, 'daun pada tanaman akan layu seperti kekurangan air', 0.6),
+(3, 1, 'gejala pada tanaman terjadi pada siang hari, dan pada malam hari akan segar kembali hingga pagi', 0.6),
+(4, 1, 'tanaman menjadi kerdil', 0.7),
+(5, 1, 'akar membengkak seperti umbi', 1),
+(6, 2, 'daun berair', 0.6),
+(7, 2, 'muncul bercak kecoklatan pada daun', 0.7),
+(8, 2, 'daun melunak dan berlendir', 0.9),
+(9, 2, 'mengeluarkan bau yang khas pada daun', 0.9),
+(10, 2, 'bercak membesar dan bentuknya tidak beraturan', 0.8),
+(11, 3, 'daun atau batang kubis menguning hingga menghitam', 0.6),
+(12, 3, 'tanaman layu', 0.5),
+(13, 3, 'daun yang terinfeksi akan membentuk wilayah V', 0.7),
+(14, 3, 'dasar daun menjadi kering', 0.9),
+(15, 3, 'tanaman menunjukkan gejala kerdil', 0.9),
+(16, 4, 'pada daun terdapat bercak-bercak kecil', 0.3),
+(17, 4, 'bercak pada daun berwarna kelabu gelap mendekati hitam', 0.6),
+(18, 4, 'bercak melingkar atau bulat', 0.7),
+(19, 4, 'bercak mudah berkembang dan meluas', 0.7),
+(20, 4, 'noda kuning pada daun paling tua atau batang', 0.8),
+(21, 5, 'ulat yang menyerang 1 atau 2', 0.8),
+(22, 5, 'daunnya habis dimakan', 0.8),
+(23, 5, 'ada sisa-sisa kotoran pada tanaman yang dimakan ulat ', 0.8),
+(24, 5, 'tanaman berlubang dan hanya tinggal tulang-tulang daunnya', 1),
+(25, 6, 'ulat memakan pinggir daun', 0.8),
+(26, 6, 'daun berlubang-lubang', 0.7),
+(27, 6, 'daun tampak bercak-bercak putih', 0.7),
+(28, 6, 'jika ulat terancam, akan menjatuhkan diri dan mengeluarkan benang', 0.7),
+(29, 6, 'daun menjadi tinggal tulang daun', 0.9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hasil`
+--
+
+CREATE TABLE `hasil` (
+  `id_hasil` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `nilai` int(11) NOT NULL,
+  `diagnosa` varchar(256) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jawaban`
+--
+
+CREATE TABLE `jawaban` (
+  `id_jawaban` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_gejala` int(11) NOT NULL,
+  `jawaban` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `jawaban`
+--
+
+INSERT INTO `jawaban` (`id_jawaban`, `id_user`, `id_gejala`, `jawaban`) VALUES
+(1, 1, 2, 'y');
 
 -- --------------------------------------------------------
 
@@ -111,7 +144,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `nama`, `alamat`, `telepon`) VALUES
-(2, 'Brigita Tiora', 'Banyuwangi', '08123456789');
+(2, 'Brigita Tiora', 'Jakarta', '0987654321'),
+(5, 'Jhon F. Kenedy', 'Washington DC', '1234567890'),
+(11, 'Rudy Hartanto', 'Jakarta', '1233345677');
 
 --
 -- Indexes for dumped tables
@@ -122,6 +157,18 @@ INSERT INTO `user` (`id_user`, `nama`, `alamat`, `telepon`) VALUES
 --
 ALTER TABLE `gejala`
   ADD PRIMARY KEY (`id_gejala`);
+
+--
+-- Indexes for table `hasil`
+--
+ALTER TABLE `hasil`
+  ADD PRIMARY KEY (`id_hasil`);
+
+--
+-- Indexes for table `jawaban`
+--
+ALTER TABLE `jawaban`
+  ADD PRIMARY KEY (`id_jawaban`);
 
 --
 -- Indexes for table `penyakit`
@@ -146,6 +193,18 @@ ALTER TABLE `gejala`
   MODIFY `id_gejala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
+-- AUTO_INCREMENT for table `hasil`
+--
+ALTER TABLE `hasil`
+  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `jawaban`
+--
+ALTER TABLE `jawaban`
+  MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `penyakit`
 --
 ALTER TABLE `penyakit`
@@ -155,7 +214,7 @@ ALTER TABLE `penyakit`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
