@@ -23,78 +23,74 @@ class Proses extends REST_Controller
         
         if($jawaban){
             for($i = 0; $i < count($jawaban); $i++){
-                $jawaban[$i] = $this->db->query('Select * from jawaban j left join gejala g on j.id_gejala = g.id_gejala left join penyakit p on g.id_penyakit = p.id_penyakit where g.id_gejala=' . $jawaban[$i]['id_gejala'])->row_array();
-
-                $m[$i] = $jawaban[$i]['point'];
-                $t[$i] = 1 - $jawaban[$i]['point'];
-                $m_simbol[$i] = $jawaban[$i]['simbol_penyakit'];
-                $mt_simbol[$i] = null;
-                $tm_simbol[$i] = null;
-                $m_proses[$i] = null;
-                $mt_proses[$i] = null;
-                $tm_proses[$i] = null;
-                $teta[$i] = null;
-
-                if($i == 1){
-                    if($jawaban[$i-1]['id_penyakit'] == $jawaban[$i]['id_penyakit']){
-                        $m_simbol[$i] = $m_simbol[$i-1];
-                        $m_proses[$i] = $m[$i-1] * $m[$i];
-                    } else{
-                        $m_simbol[$i] = null;
-                        $m_proses[$i] = $m[$i-1] * $m[$i];
-                    }
-
-                    $mt_simbol[$i] = $jawaban[$i-1]['simbol_penyakit'];
-                    $mt_proses[$i] = $m[$i-1] * $t[$i];
-                    $tm_simbol[$i] = $jawaban[$i]['simbol_penyakit'];
-                    $tm_proses[$i] = $t[$i-1] * $m[$i];
-                    $teta[$i] = $t[$i-1] * $t[$i];
-                }
-
-                if($i >= 2){
-                    if($m_simbol[$i-1] != null){
-                        $a[$i] = $m_proses[$i-1]/(1-0);
-                        $b[$i] = $mt_proses[$i-1]/(1-0);
-                        $c[$i] = $tm_proses[$i-1]/(1-0);
-                        $d[$i] = $teta[$i]/(1-0);
-                    } else{
-                        $a[$i] = $m_proses[$i-1]/(1-$m_proses[$i-1]);
-                        $b[$i] = $mt_proses[$i-1]/(1-$m_proses[$i-1]);
-                        $c[$i] = $tm_proses[$i-1]/(1-$m_proses[$i-1]);
-                        $d[$i] = $teta[$i]/(1-$m_proses[$i-1]);
-                    }
-
-                    if($jawaban[$i-1]['id_penyakit'] == $jawaban[$i]['id_penyakit']){
-                        $m_simbol[$i] = $m_simbol[$i-1];
-                        $m_proses[$i] = $a[$i] * $m[$i];
-                    } else{
-                        $m_simbol[$i] = null;
-                        $m_proses[$i] = $a[$i] * $m[$i];
-                    }
-
-                    $mt_simbol[$i] = $jawaban[$i-1]['simbol_penyakit'];
-                    $mt_proses[$i] = $a[$i] * $t[$i];
-                    $tm_simbol[$i] = $jawaban[$i]['simbol_penyakit'];
-                    $tm_proses[$i] = $t[$i-1] * $m[$i];
-                }
-
-                echo $m[$i];
-                echo ',';
-                echo $t[$i];
-                echo ',';
-                echo $m_simbol[$i];
-                echo ' ';
-                echo $m_proses[$i];
-                echo ',';
-                echo $mt_simbol[$i];
-                echo ' ';
-                echo $mt_proses[$i];
-                echo ',';
-                echo $tm_simbol[$i];
-                echo ' ';
-                echo $tm_proses[$i];
-                echo ' ; ';
+                $row = $this->db->query('Select GROUP_CONCAT(p.simbol_penyakit), g.point from jawaban j left join gejala g on j.id_gejala = g.id_gejala left join penyakit p on g.id_penyakit = p.id_penyakit where g.id_gejala=' . $jawaban[$i]['id_gejala'])->row_array();
+                
+                $evidence=array();
+                $evidence[] = $row;
             }
+
+            //--- menentukan environement
+            $row = $this->db->query("SELECT GROUP_CONCAT(simbol_penyakit) FROM penyakit")->result_array();
+            $fod=$row[0];
+
+            //--- menentukan nilai densitas
+            $densitas_baru = array();
+            while(!empty($evidence)){
+                $densitas1[0]=array_shift($evidence);
+                $densitas1[1]=array($fod,1-$densitas1[0][1]);
+                $densitas2=array();
+                if(empty($densitas_baru)){
+                    $densitas2[0]=array_shift($evidence);
+                }else{
+                    foreach($densitas_baru as $k=>$r){
+                        if($k!="&theta;"){
+                            $densitas2[]=array($k,$r);
+                        }
+                    }
+                }
+                $theta=1;
+                foreach($densitas2 as $d) $theta-=$d[1];
+                $densitas2[]=array($fod,$theta);
+                $m=count($densitas2);
+                $densitas_baru=array();
+                for($y=0;$y<$m;$y++){
+                    for($x=0;$x<2;$x++){
+                        if(!($y==$m-1 && $x==1)){
+                            $v=explode(',',$densitas1[$x][0]);
+                            $w=explode(',',$densitas2[$y][0]);
+                            sort($v);
+                            sort($w);
+                            $vw=array_intersect($v,$w);
+                            if(empty($vw)){
+                                $k="&theta;";
+                            }else{
+                                $k=implode(',',$vw);
+                            }
+                            if(!isset($densitas_baru[$k])){
+                                $densitas_baru[$k]=$densitas1[$x][1]*$densitas2[$y][1];
+                            }else{
+                                $densitas_baru[$k]+=$densitas1[$x][1]*$densitas2[$y][1];
+                            }
+                        }
+                    }
+                }
+                foreach($densitas_baru as $k=>$d){
+                    if($k!="&theta;"){
+                        $densitas_baru[$k]=$d/(1-(isset($densitas_baru["&theta;"])?$densitas_baru["&theta;"]:0));
+                    }
+                }
+                print_r($densitas_baru);
+            }
+
+            //--- perangkingan
+            unset($densitas_baru["&theta;"]);
+            arsort($densitas_baru);
+            print_r($densitas_baru);
+
+            //--- menampilkan hasil akhir
+            $codes=array_keys($densitas_baru);
+            $row=$this->db->query("SELECT GROUP_CONCAT(nama_penyakit) FROM penyakit WHERE simbol_penyakit IN('{$codes[0]}')")->result_array();
+            echo "Terdeteksi penyakit <b>{$row[0]}</b> dengan derajat kepercayaan ".round($densitas_baru[$codes[0]]*100,2)."%";
         } else{
             $this->response('id tidak ditemukan', REST_Controller::HTTP_NOT_FOUND);
         }
