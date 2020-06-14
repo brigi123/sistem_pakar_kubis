@@ -25,15 +25,9 @@ class Jawaban extends REST_Controller
         }
         
         if($jawaban){
-            $this->response([
-                'status' => true,
-                'data' => $jawaban
-            ], REST_Controller::HTTP_OK);
+            $this->response($jawaban, REST_Controller::HTTP_OK);
         } else{
-            $this->response([
-                'status' => false,
-                'message' => 'data tidak ditemukan'
-            ], REST_Controller::HTTP_OK);
+            $this->response('data tidak ditemukan', REST_Controller::HTTP_OK);
         }
     }
 
@@ -46,14 +40,10 @@ class Jawaban extends REST_Controller
         ];
         
         if($this->jawaban->tambahJawaban($data) > 0){
-            $this->response([
-                'status' => true,
-                'message' => 'jawaban berhasil ditambahkan'
-            ], REST_Controller::HTTP_CREATED);
+            $this->response('jawaban berhasil ditambahkan', REST_Controller::HTTP_CREATED);
         } else{
             $this->response([
-                'status' => false,
-                'message' => 'tambah jawaban gagal!'
+                'tambah jawaban gagal!'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
@@ -67,15 +57,9 @@ class Jawaban extends REST_Controller
         ];
 
         if($this->jawaban->updateJawaban($data, $id_user, $id_gejala) > 0){
-            $this->response([
-                'status' => true,
-                'message' => 'jawaban berhasil diperbarui.'
-            ], REST_Controller::HTTP_OK);
+            $this->response('jawaban berhasil diperbarui.', REST_Controller::HTTP_OK);
         } else{
-            $this->response([
-                'status' => false,
-                'message' => 'pembaruan jawaban gagal!'
-            ], REST_Controller::HTTP_BAD_REQUEST);
+            $this->response('pembaruan jawaban gagal!', REST_Controller::HTTP_BAD_REQUEST);
         }
     }
 }

@@ -24,15 +24,9 @@ class Penyakit extends REST_Controller
         }
         
         if($penyakit){
-            $this->response([
-                'status' => true,
-                'data' => $penyakit
-            ], REST_Controller::HTTP_OK);
+            $this->response($penyakit, REST_Controller::HTTP_OK);
         } else{
-            $this->response([
-                'status' => false,
-                'message' => 'id tidak ditemukan'
-            ], REST_Controller::HTTP_NOT_FOUND);
+            $this->response('id tidak ditemukan', REST_Controller::HTTP_NOT_FOUND);
         }
     }
 }

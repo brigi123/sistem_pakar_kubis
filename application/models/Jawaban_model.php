@@ -32,4 +32,12 @@ class Jawaban_model extends CI_Model
         ]);
         return $this->db->affected_rows();
     }
+
+    public function getJawabanBenarByIdUser($id_user)
+    {
+        return $this->db->get_where('jawaban', [
+            'id_user' => $id_user,
+            'jawaban' => 'a'
+            ])->result_array();
+    }
 }
