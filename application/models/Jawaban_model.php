@@ -20,7 +20,16 @@ class Jawaban_model extends CI_Model
 
     public function tambahJawaban($data)
     {
-        $this->db->insert('jawaban', $data);
+        $JwbBefore = $this->db->get_where('jawaban', ['id_user' => $data['id_user']])->result_array();
+        if($JwbBefore){
+            foreach($JwbBefore as $dataJwb){
+                $this->db->update('jawaban', $data, [
+                    'id_jawaban' => $dataJwb['id_jawaban']
+                ]);
+            }
+        } else{
+            $this->db->insert('jawaban', $data);
+        }
         return $this->db->affected_rows();
     }
 
