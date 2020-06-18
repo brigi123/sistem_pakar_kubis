@@ -35,7 +35,7 @@ class Jawaban_model extends CI_Model
 
     public function getJawabanBenarByIdUser($id_user)
     {
-        return $this->db->get_where('jawaban', [
+        return $this->db->select('id_gejala')->get_where('jawaban', [
             'id_user' => $id_user,
             'jawaban' => 'a'
             ])->result_array();
