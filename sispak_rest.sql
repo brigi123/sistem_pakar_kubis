@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2020 at 07:12 PM
+-- Generation Time: Jun 18, 2020 at 04:29 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.4
 
@@ -72,25 +72,13 @@ INSERT INTO `gejala` (`id_gejala`, `id_penyakit`, `gejala`, `point`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hasil`
---
-
-CREATE TABLE `hasil` (
-  `id_hasil` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `nilai` int(11) NOT NULL,
-  `diagnosa` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `jawaban`
 --
 
 CREATE TABLE `jawaban` (
   `id_jawaban` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
+  `id_penyakit` int(11) NOT NULL,
   `id_gejala` int(11) NOT NULL,
   `jawaban` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -99,8 +87,27 @@ CREATE TABLE `jawaban` (
 -- Dumping data for table `jawaban`
 --
 
-INSERT INTO `jawaban` (`id_jawaban`, `id_user`, `id_gejala`, `jawaban`) VALUES
-(1, 1, 2, 'y');
+INSERT INTO `jawaban` (`id_jawaban`, `id_user`, `id_penyakit`, `id_gejala`, `jawaban`) VALUES
+(1, 2, 1, 2, 'b'),
+(2, 2, 1, 1, 'b'),
+(3, 2, 1, 3, 'b'),
+(4, 2, 1, 4, 'b'),
+(5, 2, 1, 5, 'b'),
+(6, 2, 2, 6, 'b'),
+(7, 2, 2, 7, 'a'),
+(8, 2, 2, 8, 'b'),
+(9, 2, 2, 9, 'a'),
+(10, 2, 2, 10, 'b'),
+(11, 2, 3, 11, 'b'),
+(12, 2, 3, 12, 'a'),
+(13, 2, 3, 13, 'a'),
+(14, 2, 3, 14, 'b'),
+(15, 2, 3, 15, 'a'),
+(16, 2, 4, 16, 'b'),
+(17, 2, 4, 17, 'a'),
+(18, 2, 4, 18, 'b'),
+(19, 2, 4, 19, 'b'),
+(20, 2, 4, 20, 'a');
 
 -- --------------------------------------------------------
 
@@ -159,12 +166,6 @@ ALTER TABLE `gejala`
   ADD PRIMARY KEY (`id_gejala`);
 
 --
--- Indexes for table `hasil`
---
-ALTER TABLE `hasil`
-  ADD PRIMARY KEY (`id_hasil`);
-
---
 -- Indexes for table `jawaban`
 --
 ALTER TABLE `jawaban`
@@ -193,16 +194,10 @@ ALTER TABLE `gejala`
   MODIFY `id_gejala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
--- AUTO_INCREMENT for table `hasil`
---
-ALTER TABLE `hasil`
-  MODIFY `id_hasil` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `jawaban`
 --
 ALTER TABLE `jawaban`
-  MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_jawaban` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `penyakit`
