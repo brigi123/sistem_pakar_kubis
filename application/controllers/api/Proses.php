@@ -45,14 +45,14 @@ class Proses extends REST_Controller
                 //--- menentukan nilai densitas 
                 echo "== MENENTUKAN NILAI DENSITAS ==\n"; 
                 $densitas_baru=array(); 
-                while(!empty($evidence)){ 
+                while(!empty($evidence)){
                     $densitas1[0]=array_shift($evidence);
                     $densitas1[1]=array($fod,1-$densitas1[0][1]); 
                     $densitas2=array(); 
                     if(empty($densitas_baru)){ 
                         $densitas2[0]=array_shift($evidence); 
                     }else{ 
-                        foreach($densitas_baru as $k=>$r){ 
+                        foreach($densitas_baru as $k=>$r){
                             if($k!="&theta;"){ 
                                 $densitas2[]=array($k,$r);
                             } 
