@@ -43,7 +43,7 @@ class Proses extends REST_Controller
                 $fod=$row;
                     
                 //--- menentukan nilai densitas 
-                echo "== MENENTUKAN NILAI DENSITAS ==\n"; 
+                //echo "== MENENTUKAN NILAI DENSITAS ==\n"; 
                 $densitas_baru=array(); 
                 while(!empty($evidence)){
                     $densitas1[0]=array_shift($evidence);
@@ -93,17 +93,17 @@ class Proses extends REST_Controller
                             $densitas_baru[$k]=$d/(1-(isset($densitas_baru["&theta;"])?$densitas_baru["&theta;"]:0)); 
                         } 
                     } 
-                    print_r($densitas_baru); 
+                    //print_r($densitas_baru); 
                 } 
                     
                 //--- perangkingan 
-                echo "== PERANGKINGAN ==\n"; 
+                //echo "== PERANGKINGAN ==\n"; 
                 unset($densitas_baru["&theta;"]); 
                 arsort($densitas_baru); 
-                print_r($densitas_baru); 
+                //print_r($densitas_baru); 
                     
                 //--- menampilkan hasil akhir 
-                echo "== HASIL AKHIR ==\n"; 
+                //echo "== HASIL AKHIR ==\n"; 
                 $codes=array_keys($densitas_baru);  
                 $final_codes=explode(',',$codes[0]); 
                 $sql="SELECT GROUP_CONCAT(nama_penyakit) as nama   
