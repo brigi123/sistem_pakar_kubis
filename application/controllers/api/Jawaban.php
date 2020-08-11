@@ -62,4 +62,19 @@ class Jawaban extends REST_Controller
             $this->response('pembaruan jawaban gagal!', REST_Controller::HTTP_BAD_REQUEST);
         }
     }
+
+    public function index_delete()
+    {
+        $id = $this->delete('id_user');
+
+        if($id == null){
+            $this->response('dibutuhkan id user untuk delete', REST_Controller::HTTP_BAD_REQUEST);
+        } else {
+            if($this->jawaban->deleteJawabanUser($id) > 0){
+                $this->response('Jawaban user berhasil dihapus.', REST_Controller::HTTP_OK);
+            } else{
+                $this->response('user tidak ditemukan', REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }
+    }
 }

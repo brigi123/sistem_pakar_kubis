@@ -61,4 +61,19 @@ class User extends REST_Controller
             $this->response('pembaruan data pengguna gagal!', REST_Controller::HTTP_BAD_REQUEST);
         }
     }
+
+    public function index_delete()
+    {
+        $id = $this->delete('id_user');
+
+        if($id == null){
+            $this->response('dibutuhkan id user untuk delete', REST_Controller::HTTP_BAD_REQUEST);
+        } else {
+            if($this->user->deleteUser($id) > 0){
+                $this->response('User berhasil dihapus.', REST_Controller::HTTP_OK);
+            } else{
+                $this->response('user tidak ditemukan', REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }
+    }
 }

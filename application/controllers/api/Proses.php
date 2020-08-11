@@ -111,6 +111,23 @@ class Proses extends REST_Controller
                     WHERE simbol_penyakit IN('".implode("','",$final_codes)."')";  
                 $result=$this->db->query($sql);  
                 $row=$result->row_array();
+
+                $HasilBefore = $this->db->get_where('hasil', ['id_user' => $id_user])->result_array();
+                if($HasilBefore){
+                    $this->db->update('hasil', [
+                        'nama_penyakit' => $row['nama'],
+                        'hasil_hitung' => round($densitas_baru[$codes[0]]*100,2)
+                    ], [
+                        'id_user' => $id_user
+                    ]);
+                } else{
+                    $this->db->insert('hasil',[
+                        'id_user' => $id_user,
+                        'nama_penyakit' => $row['nama'],
+                        'hasil_hitung' => round($densitas_baru[$codes[0]]*100,2)
+                    ]);
+                }
+
                 echo "Terdeteksi penyakit <b>{$row['nama']}</b> dengan derajat kepercayaan ".round($densitas_baru[$codes[0]]*100,2)."%";
             }
         }

@@ -49,4 +49,10 @@ class Jawaban_model extends CI_Model
             'jawaban' => 'a'
             ])->result_array();
     }
+
+    public function deleteJawabanUser($id)
+    {
+        $this->db->delete('jawaban', ['id_user' => $id]);
+        return $this->db->affected_rows();
+    }
 }
